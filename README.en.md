@@ -4,6 +4,8 @@
 
 [Português](README.md) · **English**
 
+[![CI](https://github.com/acamilateixeira/emppo-finance/actions/workflows/ci.yml/badge.svg)](https://github.com/acamilateixeira/emppo-finance/actions/workflows/ci.yml)
+
 **Record income and expenses and see how each entry changes the balance.**
 
 Emppo began as a management dashboard prototype. This public edition presents its first working slice: a Node.js finance API that validates input, persists entries, and calculates the balance in cents. The total can be checked against the stored entries.
@@ -48,3 +50,7 @@ curl -sS http://127.0.0.1:3001/api/summary
 | `GET /api/summary` | Returns income, expenses, and balance in cents |
 
 The next step is to connect the UI to the API and implement authentication and authorization before a hosted demo.
+
+## Postman, Insomnia, and verification
+
+Import the [Emppo Finance collection](docs/postman.collection.json). Run the sequence against a local test database. It records income and expenses, filters entries, rejects an invalid amount, and checks that the balance increases by 18,000 cents.

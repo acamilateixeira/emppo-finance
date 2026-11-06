@@ -4,6 +4,8 @@
 
 **Português** · [English](README.en.md)
 
+[![CI](https://github.com/acamilateixeira/emppo-finance/actions/workflows/ci.yml/badge.svg)](https://github.com/acamilateixeira/emppo-finance/actions/workflows/ci.yml)
+
 **Registre receitas e despesas e confira como cada lançamento muda o saldo.**
 
 O Emppo começou como protótipo de painel de gestão. A versão pública apresenta o primeiro fluxo funcional do produto: uma API financeira em Node.js que valida dados, persiste os lançamentos e calcula o saldo em centavos. O saldo pode ser conferido a partir das entradas e saídas registradas.
@@ -48,3 +50,7 @@ curl -sS http://127.0.0.1:3001/api/summary
 | `GET /api/summary` | Devolve receitas, despesas e saldo em centavos |
 
 O próximo passo é ligar as telas à API e implementar autenticação e autorização antes de uma demonstração hospedada.
+
+## Postman, Insomnia e verificação
+
+Importe a [coleção Emppo Finance](docs/postman.collection.json). Rode a sequência em um banco local de teste. Ela registra uma receita e uma despesa, filtra lançamentos, rejeita um valor inválido e confirma que o saldo aumenta em 18.000 centavos.

@@ -1,0 +1,192 @@
+{
+  "info": {
+    "name": "Emppo Finance — local ledger",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:3001"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/health",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Read starting balance",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/summary",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.collectionVariables.set('openingBalance', pm.response.json().balanceCents);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Record income",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/entries",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Example income\", \"amountCents\": 30000, \"direction\": \"income\", \"occurredOn\": \"2026-03-01\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 201', () => pm.response.to.have.status(201));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Record expense",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/entries",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Example expense\", \"amountCents\": 12000, \"direction\": \"expense\", \"occurredOn\": \"2026-03-01\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 201', () => pm.response.to.have.status(201));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Filter expenses",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/entries?direction=expense",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('Only expenses', () => { const entries = pm.response.json().entries; pm.expect(entries.length).to.be.greaterThan(0); pm.expect(entries.every(x => x.direction === 'expense')).to.be.true; });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reject invalid amount",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/entries",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Invalid\", \"amountCents\": 0, \"direction\": \"income\", \"occurredOn\": \"2026-03-01\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400', () => pm.response.to.have.status(400));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Verify balance delta",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/summary",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('Balance increased by 18000 cents', () => pm.expect(pm.response.json().balanceCents).to.eql(Number(pm.collectionVariables.get('openingBalance')) + 18000));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
