@@ -1,0 +1,132 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-11-10T18:00:00.000Z",
+  "__export_source": "emppo-finance",
+  "resources": [
+    {
+      "_id": "wrk_emppo",
+      "_type": "workspace",
+      "name": "Emppo Finance",
+      "description": "API local de lançamentos (Fastify + SQLite). Rode `npm start` em server/ e use o ambiente Base. Use um banco de teste: a sequência grava lançamentos.",
+      "scope": "collection"
+    },
+    {
+      "_id": "env_emppo",
+      "_type": "environment",
+      "parentId": "wrk_emppo",
+      "name": "Base",
+      "data": {
+        "base_url": "http://127.0.0.1:3001"
+      }
+    },
+    {
+      "_id": "req_emppo_1",
+      "_type": "request",
+      "parentId": "wrk_emppo",
+      "name": "1. Health",
+      "method": "GET",
+      "url": "{{ _.base_url }}/health",
+      "metaSortKey": 1,
+      "headers": [],
+      "body": {},
+      "authentication": {}
+    },
+    {
+      "_id": "req_emppo_2",
+      "_type": "request",
+      "parentId": "wrk_emppo",
+      "name": "2. Read starting balance",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/summary",
+      "metaSortKey": 2,
+      "headers": [],
+      "body": {},
+      "authentication": {}
+    },
+    {
+      "_id": "req_emppo_3",
+      "_type": "request",
+      "parentId": "wrk_emppo",
+      "name": "3. Record income",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/entries",
+      "metaSortKey": 3,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Example income\",\n  \"amountCents\": 30000,\n  \"direction\": \"income\",\n  \"occurredOn\": \"2026-03-01\"\n}"
+      },
+      "authentication": {}
+    },
+    {
+      "_id": "req_emppo_4",
+      "_type": "request",
+      "parentId": "wrk_emppo",
+      "name": "4. Record expense",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/entries",
+      "metaSortKey": 4,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Example expense\",\n  \"amountCents\": 12000,\n  \"direction\": \"expense\",\n  \"occurredOn\": \"2026-03-01\"\n}"
+      },
+      "authentication": {}
+    },
+    {
+      "_id": "req_emppo_5",
+      "_type": "request",
+      "parentId": "wrk_emppo",
+      "name": "5. Filter expenses",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/entries?direction=expense",
+      "metaSortKey": 5,
+      "headers": [],
+      "body": {},
+      "authentication": {}
+    },
+    {
+      "_id": "req_emppo_6",
+      "_type": "request",
+      "parentId": "wrk_emppo",
+      "name": "6. Reject invalid amount",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/entries",
+      "metaSortKey": 6,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Invalid\",\n  \"amountCents\": 0,\n  \"direction\": \"income\",\n  \"occurredOn\": \"2026-03-01\"\n}"
+      },
+      "authentication": {}
+    },
+    {
+      "_id": "req_emppo_7",
+      "_type": "request",
+      "parentId": "wrk_emppo",
+      "name": "7. Verify balance delta",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/summary",
+      "metaSortKey": 7,
+      "headers": [],
+      "body": {},
+      "authentication": {}
+    }
+  ]
+}
