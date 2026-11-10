@@ -53,4 +53,4 @@ The next step is to connect the UI to the API and implement authentication and a
 
 ## Postman, Insomnia, and verification
 
-Import the [Insomnia](insomnia/emppo-finance.json) or [Postman](docs/postman.collection.json) collection. Run the sequence against a local test database. It records income and expenses, filters entries, rejects an invalid amount. In the Postman collection, automated checks confirm the balance increases by 18,000 cents; in Insomnia, compare the two summaries.
+Import the [Insomnia](insomnia/emppo-finance.json) or [Postman](docs/postman.collection.json) collection. Run the sequence against a local test database. It records income and expenses, filters entries, and rejects an invalid amount. In the Postman collection, automated checks confirm the balance increases by 18,000 cents; in Insomnia, compare the two summaries.

@@ -53,4 +53,4 @@ O próximo passo é ligar as telas à API e implementar autenticação e autoriz
 
 ## Postman, Insomnia e verificação
 
-Importe a coleção do [Insomnia](insomnia/emppo-finance.json) ou do [Postman](docs/postman.collection.json). Rode a sequência em um banco local de teste. Ela registra uma receita e uma despesa, filtra lançamentos, rejeita um valor inválido. Na coleção do Postman, as verificações automáticas confirmam que o saldo aumenta em 18.000 centavos; no Insomnia, compare os dois resumos.
+Importe a coleção do [Insomnia](insomnia/emppo-finance.json) ou do [Postman](docs/postman.collection.json). Rode a sequência em um banco local de teste. Ela registra uma receita e uma despesa, filtra lançamentos e rejeita um valor inválido. Na coleção do Postman, as verificações automáticas confirmam que o saldo aumenta em 18.000 centavos; no Insomnia, compare os dois resumos.
